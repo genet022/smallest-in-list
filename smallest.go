@@ -58,6 +58,9 @@ func main() {
     } else {
         fmt.Println(err)
     }
+
+    // Print out performant answer
+    fmt.Println("smallest from performant algorithm : ", perfGetSmallest(r))
 }
 
 // I had the cool idea of possibly returning some sort of iterator here
@@ -107,4 +110,20 @@ func readableGetSmallest(r *ring.Ring) (float64, error) {
     // index 2 = third smallest
     var index int = 0
     return flexibleGetSmallest(r, index)
+}
+
+// O(n)
+// I'm just going to assume the data is all ints for this one
+func perfGetSmallest(r *ring.Ring) int {
+    // Set smallest to first value
+    var smallest int = r.Value.(int)
+
+    // Do a single loop through ring to determine smallest number
+    r.Do(func(p interface{}) {
+		if p.(int) < smallest {
+            smallest = p.(int)
+        }
+    })
+    
+    return smallest
 }
