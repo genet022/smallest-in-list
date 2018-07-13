@@ -45,6 +45,13 @@ func main() {
         r = r.Next()
     }
 
+    // Print out readable answer
+    if lowest, err := readableGetSmallest(r); err == nil {
+        fmt.Println("smallest from extendable algorithm : ", lowest)
+    } else {
+        fmt.Println(err)
+    }
+
     // Print out flexible answer
     if lowest, err := flexibleGetSmallest(r, 0); err == nil {
         fmt.Println("smallest from extendable algorithm : ", lowest)
@@ -87,4 +94,17 @@ func flexibleGetSmallest(r *ring.Ring, index int) (float64, error) {
     sort.Float64s(arr)
 
     return arr[index], nil
+}
+
+// I would definitely consider this "as readable as possible" :)
+// A more readable version would've just been a copy/paste of flexibleGetSmallest()
+// without the index parameter, hardcoding arr[0], or error/type handling.
+// But duplicate code is bad so I'm going with this.
+// I would also consider perfGetSmallest sufficiently readable.
+func readableGetSmallest(r *ring.Ring) (float64, error) {
+    // index 0 = smallest
+    // index 1 = second smallest
+    // index 2 = third smallest
+    var index int = 0
+    return flexibleGetSmallest(r, index)
 }
